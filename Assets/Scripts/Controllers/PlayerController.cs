@@ -2,10 +2,8 @@
 
 public class PlayerController : MonoBehaviour
 {
-
+    #region Movement
     public CharacterController controller;
-
-    public AudioSource footStepS;
 
     public float speed =6f;
     public float sprintSpeed = 12f;
@@ -18,21 +16,91 @@ public class PlayerController : MonoBehaviour
 
     Vector3 velocity;
     public static bool isGrounded;
+    #endregion
 
-    public GameObject Torch;
+    #region Health, Battery, Stress etc.
+    public float maxBattery = 100f;
+    public float batteryLifeInSeconds = 500f;
+    public float currentBattery;
+    public float maxPlayerHealth = 2f;
+    public float currentPlayerHealth;
 
-    public static bool torchOn = true;
+    //Battery
+
+    public BatteryBar batteryBar;
+
+    #endregion
+
+    #region torch
+    public GameObject shakePopUp;
+    public int torchShakes;
+    public int maxTorchShakes = 1;
+    public Light Torch;
+
+    public static bool torchOn;
+    #endregion
 
     Camera cam;
+    public AudioSource footStepS;
 
     private void Start()
     {
         cam = Camera.main;
+        currentBattery = maxBattery;
+        currentPlayerHealth = maxPlayerHealth;
+        batteryBar.SetMaxBattery(maxBattery);
+        torchShakes = maxTorchShakes;
+        shakePopUp.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        #region flashlight
+        
+        if (Input.GetKeyDown(KeyCode.F) && currentBattery > 0)
+        {
+            torchOn = !torchOn;
+            FindObjectOfType<AudioManager>().Play("torchToggle");
+        }
+
+        if(currentBattery == 0 && torchShakes > 0 && Input.GetKeyDown(KeyCode.Q))
+        {
+            currentBattery += 10f;
+            torchShakes -= 1;
+            batteryBar.SetBattery(currentBattery);
+            shakePopUp.SetActive(false);
+            FindObjectOfType<AudioManager>().Play("torchShake");
+            torchOn = false;
+        }
+
+        if (torchOn)
+        {
+            Torch.enabled = true;
+            currentBattery -= Time.deltaTime * (100 / batteryLifeInSeconds);
+            batteryBar.SetBattery(currentBattery);
+        }
+        else
+        {
+            Torch.enabled = false;
+        }
+
+        currentBattery = Mathf.Clamp(currentBattery, 0, 100);
+        
+        if (currentBattery == 0)
+        {
+            Torch.intensity = Mathf.Lerp(Torch.intensity, 0f, Time.deltaTime * 2);
+            if(torchShakes > 0)
+            {
+                shakePopUp.SetActive(true);
+            }
+        }
+        else
+        {
+            Torch.intensity = Mathf.Lerp(Torch.intensity, 1f, Time.deltaTime * 2);
+        }
+        #endregion
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDisctance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -64,10 +132,7 @@ public class PlayerController : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            torch();
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -88,21 +153,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         playFootSteps();
-    }
-
-    void torch()
-    {
-        if (torchOn)
-        {
-            Torch.SetActive(false);
-            torchOn = false;
-        }
-        else
-        {
-            Torch.SetActive(true);
-            torchOn = true;
-        }
-        FindObjectOfType<AudioManager>().Play("torchToggle");
     }
 
     private void playFootSteps()

@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
             shakePopUp.SetActive(false);
             FindObjectOfType<AudioManager>().Play("torchShake");
             torchOn = false;
+            
         }
 
         if (torchOn)
@@ -111,6 +112,7 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        
         if (Input.GetKey(KeyCode.LeftShift))
         {
             speed = sprintSpeed;
@@ -131,23 +133,7 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
-
-        
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-
-            }
-
-        }
     }
-
-   
 
 
     private void FixedUpdate()

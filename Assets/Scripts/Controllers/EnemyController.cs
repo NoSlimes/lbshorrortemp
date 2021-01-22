@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public float wanderRadius = 100f;
     private bool isPlayerDetected;
 
+
     Transform target;
     NavMeshAgent agent;
     // Start is called before the first frame update
@@ -53,8 +54,8 @@ public class EnemyController : MonoBehaviour
                 agent.SetDestination(agent.RandomPosition(wanderRadius));
             }
         }
-
     }
+
 
 
     void faceTarget()

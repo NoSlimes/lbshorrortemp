@@ -10,18 +10,28 @@ public class RayCaster : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             RaycastHit hit;
-            if(Physics.Raycast(transform.position, transform.forward, out hit, interactableRange, ~IgnoreLayer) && hit.transform.tag == "Door")
+            if(Physics.Raycast(transform.position, transform.forward, out hit, interactableRange, ~IgnoreLayer)) 
             {
-                Animator anim = hit.transform.GetComponentInParent<Animator>();
-                if (Input.GetKeyDown(KeyCode.E))
-                    anim.SetTrigger("OpenClose");
+                if(hit.transform.tag == "Door") 
+                { 
+                    Animator anim = hit.transform.GetComponentInParent<Animator>();
+                    if (Input.GetKeyDown(KeyCode.E))
+                        anim.SetTrigger("OpenClose");
 
+                    
+                }
+
+                if(hit.transform.tag == "Battery")
+                {
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        PlayerController.currentBatteries += 1;
+                        Debug.Log(PlayerController.currentBatteries);
+                    }
+
+                }
                 Debug.Log(hit.transform.name);
             }
         }
     }
-
-    
-   
-    
 }

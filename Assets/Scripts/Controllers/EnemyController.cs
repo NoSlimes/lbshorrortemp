@@ -20,6 +20,23 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Door")
+        {
+            Animator anim = other.GetComponentInParent<Animator>();
+            anim.SetTrigger("OpenClose");
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Door")
+        {
+            Animator anim = other.GetComponentInParent<Animator>();
+            anim.SetTrigger("OpenClose");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

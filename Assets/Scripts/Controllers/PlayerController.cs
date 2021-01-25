@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public float currentBattery;
     public float maxPlayerHealth = 2f;
     public float currentPlayerHealth;
-
+    public static int currentBatteries;
     //Battery
 
     public BatteryBar batteryBar;
@@ -71,8 +71,16 @@ public class PlayerController : MonoBehaviour
             batteryBar.SetBattery(currentBattery);
             shakePopUp.SetActive(false);
             FindObjectOfType<AudioManager>().Play("torchShake");
+            torchOn = false;   
+        }
+
+        if(currentBattery == 0 && currentBatteries > 0 && Input.GetKeyDown(KeyCode.R))
+        {
+            currentBattery = 100f;
+            currentBatteries -= 1;
+            FindObjectOfType<AudioManager>().Play("flashRecharge");
+            torchShakes = 1;
             torchOn = false;
-            
         }
 
         if (torchOn)

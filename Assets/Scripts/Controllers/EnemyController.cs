@@ -9,10 +9,8 @@ public class EnemyController : MonoBehaviour
     public float wanderRadius = 100f;
     private bool isPlayerDetected;
 
-
     Transform target;
     NavMeshAgent agent;
-    // Start is called before the first frame update
     void Start()
     {
         target = PlayerManager.instance.player.transform;
@@ -40,26 +38,29 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Vector3 dir = (target.position - transform.position);
         float distance = Vector3.Distance(target.position, transform.position);
 
+
         if (distance <= lookRadius)
-        {
-            agent.SetDestination(target.position);
+         {
+             agent.SetDestination(target.position);
 
-            if (distance <= agent.stoppingDistance)
-            {
-                faceTarget();
-            }
-            isPlayerDetected = true;
-        }
-        else
-        {
-            isPlayerDetected = false;
-        }
-        
+             if (distance <= agent.stoppingDistance)
+             {
+                 faceTarget();
+             }
+             isPlayerDetected = true;
+         }
+         else
+         {
+             isPlayerDetected = false;
+         }
 
-        
+        //if (Physics.Raycast(transform.position, direction))
+
+
+            Debug.DrawRay(transform.position, dir, Color.blue);
     }
 
     private void FixedUpdate()

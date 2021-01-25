@@ -76,10 +76,11 @@ public class PlayerController : MonoBehaviour
 
         if(currentBattery == 0 && currentBatteries > 0 && Input.GetKeyDown(KeyCode.R))
         {
-            currentBattery = 100f;
+            currentBattery = maxBattery;
             currentBatteries -= 1;
+            torchShakes = maxTorchShakes;
+            batteryBar.SetBattery(maxBattery);
             FindObjectOfType<AudioManager>().Play("flashRecharge");
-            torchShakes = 1;
             torchOn = false;
         }
 

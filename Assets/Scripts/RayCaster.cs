@@ -21,7 +21,11 @@ public class RayCaster : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.E))
                         anim.SetTrigger("OpenClose");
 
+                    if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen"))
+                        Debug.Log("Door open");
 
+                    if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose"))
+                        Debug.Log("Door closed");
                 }
 
                 if (hit.transform.tag == "Battery")

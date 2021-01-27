@@ -19,14 +19,22 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    #region Triggers
+    //When enemy enters a trigger
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Door")
         {
             Animator anim = other.GetComponentInParent<Animator>();
-            anim.SetTrigger("OpenClose");
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen"))
+                return;
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose"))
+                anim.SetTrigger("OpenClose");
         }
     }
+
+    //When enemy exits a trigger
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Door")
@@ -36,32 +44,16 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    #endregion
+
     // Update is called once per frame
     void Update()
     {
         Vector3 dir = (target.position - transform.position);
         float distance = Vector3.Distance(target.position, transform.position);
-
-        /*
-         if (distance <= lookRadius)
-         {
-             agent.SetDestination(target.position);
-
-             if (distance <= agent.stoppingDistance)
-             {
-                 faceTarget();
-             }
-             isPlayerDetected = true;
-         }
-         else
-         {
-             isPlayerDetected = false;
-         }
-
-        */
         
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, dir, out hit, ~ignore))
+        if (Physics.Raycast(transform.position, dir, out hit, ignore))
         {
             if (hit.transform.tag == "Player")
             {
@@ -75,7 +67,7 @@ public class EnemyController : MonoBehaviour
             }
             else isPlayerDetected = false;
 
-            Debug.Log(hit.transform.tag);
+          //  Debug.Log(hit.transform.tag);
         }
             Debug.DrawRay(transform.position, dir * lookDistance, Color.blue);
     }

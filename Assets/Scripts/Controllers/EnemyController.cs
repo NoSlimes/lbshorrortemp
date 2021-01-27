@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public float lookRadius = 10f;
+    public float lookDistance = 10f;
     public float wanderRadius = 100f;
     private bool isPlayerDetected;
 
+    public LayerMask ignore;
     Transform target;
     NavMeshAgent agent;
     void Start()
@@ -41,8 +42,8 @@ public class EnemyController : MonoBehaviour
         Vector3 dir = (target.position - transform.position);
         float distance = Vector3.Distance(target.position, transform.position);
 
-
-        if (distance <= lookRadius)
+        /*
+         if (distance <= lookRadius)
          {
              agent.SetDestination(target.position);
 
@@ -57,10 +58,26 @@ public class EnemyController : MonoBehaviour
              isPlayerDetected = false;
          }
 
-        //if (Physics.Raycast(transform.position, direction))
+        */
+        
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, dir, out hit, ~ignore))
+        {
+            if (hit.transform.tag == "Player")
+            {
+                agent.SetDestination(hit.transform.position);
 
+                if (distance <= agent.stoppingDistance)
+                {
+                    faceTarget();
+                }
+                isPlayerDetected = true;
+            }
+            else isPlayerDetected = false;
 
-            Debug.DrawRay(transform.position, dir, Color.blue);
+            Debug.Log(hit.transform.tag);
+        }
+            Debug.DrawRay(transform.position, dir * lookDistance, Color.blue);
     }
 
     private void FixedUpdate()
@@ -81,11 +98,5 @@ public class EnemyController : MonoBehaviour
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*5f);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, lookRadius);
     }
 }

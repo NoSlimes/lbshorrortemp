@@ -89,9 +89,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookRadius: 5
   wanderRadius: 100
-  IgnoreThis:
+  ignore:
     serializedVersion: 2
-    m_Bits: 1335
+    m_Bits: 512
 --- !u!82 &7716260072805893614
 AudioSource:
   m_ObjectHideFlags: 0

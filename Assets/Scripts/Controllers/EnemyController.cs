@@ -25,23 +25,23 @@ public class EnemyController : MonoBehaviour
     {
         if (other.tag == "Door")
         {
-            Animator anim = other.GetComponentInParent<Animator>();
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen"))
+            Animator anim = other.GetComponentInParent<Animator>(); //Set the animator to the animator of the gameObject the enemy currently is at
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, returns if the door is open
                 return;
 
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose"))
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose")) //Checks the state of the animator, opens the door if the door is already closed
                 anim.SetTrigger("OpenClose");
         }
     }
 
     //When enemy exits a trigger
     private void OnTriggerExit(Collider other)
-    {
-        Animator anim = other.GetComponentInParent<Animator>();
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose"))
+    {   
+        Animator anim = other.GetComponentInParent<Animator>(); //Set the animator to the animator of the gameObject the enemy currently is at
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose")) //Checks the state of the animator, returns if the door is closed
             return;
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, closes the door if the door is already open
             anim.SetTrigger("OpenClose");
     }
 
@@ -56,12 +56,16 @@ public class EnemyController : MonoBehaviour
         float distance = Vector3.Distance(target.position, transform.position);
         
         RaycastHit hit;
+
+        //Draws a raycast towards the player
         if (Physics.Raycast(origin, dir, out hit, lookDistance, ~ignore))
-        {
+        {   
+            //If the raycast hits a gameObject with the tag "Player"
             if (hit.transform.tag == "Player")
             {
                 agent.SetDestination(hit.transform.position);
 
+                //If the enemy is closer to the player than the set stopping distance, turn towards the player
                 if (distance <= agent.stoppingDistance)
                 {
                     faceTarget();
@@ -79,6 +83,7 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Sets the enemy to roam around randomly when player is not hit by the raycast
         if(!isPlayerDetected)
         {
             if (agent.remainingDistance <= agent.stoppingDistance)

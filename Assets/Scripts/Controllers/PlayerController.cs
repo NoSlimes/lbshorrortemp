@@ -52,9 +52,13 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
+        //Sets the current battery to max at the start of the game
         currentBatteryCharge = maxBatteryCharge;
+        //Sets the current health to max at the start of the game
         currentPlayerHealth = maxPlayerHealth;
+        //Sets the battery bar to the max battery at the start of the game
         batteryBar.SetMaxBattery(maxBatteryCharge);
+        //Sets the torch shakes to max att the start of the game
         torchShakes = maxTorchShakes;
         shakePopUp.SetActive(false);
     }
@@ -136,7 +140,7 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        
+        //Controls sprinting
         if (Input.GetKey(KeyCode.LeftShift))
         {
             speed = sprintSpeed;
@@ -149,6 +153,7 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
+        //Jumping
         if (Input.GetButton("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);

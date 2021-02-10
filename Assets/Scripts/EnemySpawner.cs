@@ -9,10 +9,10 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        spawnEnemyPoints = GameObject.FindGameObjectsWithTag("enemypoint");
-        index = Random.Range(0, spawnEnemyPoints.Length);
-        currentPoint = spawnEnemyPoints[index];
-        Instantiate(Enemy, currentPoint.transform);
+        spawnEnemyPoints = GameObject.FindGameObjectsWithTag("enemypoint"); //Finds all gameObjects with tag "enemypoint" and adds it to the array spawnEnemyPoints
+        index = Random.Range(0, spawnEnemyPoints.Length); //Picks a gameObject at random from the array
+        currentPoint = spawnEnemyPoints[index]; //The point that was picked
+        Instantiate(Enemy, currentPoint.transform); //Instantiates the enemy gameObject at the point
         print(currentPoint.name);
     }
 }

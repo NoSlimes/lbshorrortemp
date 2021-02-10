@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public float lookDistance = 10;
+    public float lookDistance = 50f;
     public float wanderRadius = 100f;
     private bool isPlayerDetected;
 
@@ -67,14 +67,14 @@ public class EnemyController : MonoBehaviour
                     faceTarget();
                 }
                 isPlayerDetected = true;
-                Debug.DrawRay(origin, dir * lookDistance, Color.blue);
-            }
-            else 
+                Debug.DrawRay(origin, dir * 1, Color.blue);
+            } 
+        }
+        else 
             {
                 isPlayerDetected = false;
-                Debug.DrawRay(origin, dir * lookDistance, Color.red);
+                Debug.DrawRay(origin, dir * 1, Color.red);
             }
-        }
     }
 
     private void FixedUpdate()
@@ -87,7 +87,7 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        Debug.Log(agent.remainingDistance);
+        Debug.Log(isPlayerDetected);
     }
 
 

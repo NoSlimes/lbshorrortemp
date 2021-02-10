@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65013cb83675914bb73225625a60325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookDistance: 10
+  lookDistance: 30
   wanderRadius: 100
   ignore:
     serializedVersion: 2

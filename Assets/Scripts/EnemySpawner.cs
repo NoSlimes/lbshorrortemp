@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject Harald;
+    public GameObject Enemy;
     GameObject[] spawnEnemyPoints;
     GameObject currentPoint;
     int index;
@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
         spawnEnemyPoints = GameObject.FindGameObjectsWithTag("enemypoint");
         index = Random.Range(0, spawnEnemyPoints.Length);
         currentPoint = spawnEnemyPoints[index];
-        Instantiate(Harald, currentPoint.transform);
+        Instantiate(Enemy, currentPoint.transform);
         print(currentPoint.name);
     }
 }

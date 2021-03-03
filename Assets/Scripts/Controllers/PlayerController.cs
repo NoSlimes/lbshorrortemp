@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundMask;
 
     Vector3 velocity;
-    //Checks if the player currently is on the ground
     public static bool isGrounded;
     #endregion
 
@@ -129,7 +128,7 @@ public class PlayerController : MonoBehaviour
             Torch.intensity = Mathf.Lerp(Torch.intensity, 1f, Time.deltaTime * 2);
         }
         #endregion
-
+        //Checks if the player currently is on the ground, and sets the isGrounded boolean to false or true depending on if it is or not.
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDisctance, groundMask);
 
         if (isGrounded && velocity.y < 0)

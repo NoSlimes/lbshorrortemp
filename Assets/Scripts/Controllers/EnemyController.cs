@@ -70,6 +70,7 @@ public class EnemyController : MonoBehaviour
                 {
                     faceTarget();
                 }
+                
                 isPlayerDetected = true;
                 Debug.DrawRay(origin, dir * 1, Color.blue);
             } 

@@ -22,13 +22,21 @@ public class PlayerController : MonoBehaviour
     #region Health, Battery, Stress etc.
     //Variables for health, battery, (stress), etc.
 
+    //Stress
+    [HideInInspector]public float currentStress;
+    public float maxStress = 100f;
+    public float timeToMaxStress = 20f;
+    public float timeToMinStress = 15f;
+    public static bool stressUp = EnemyController.isPlayerDetected;
+    public StressMeter stressMeter;
+
     //Health
-    public float currentPlayerHealth;
+    [HideInInspector]public float currentPlayerHealth;
     public float maxPlayerHealth = 2f;
     
     //Battery
-    public float currentBatteryCharge;
-    public static int currentBatteries;
+    [HideInInspector]public float currentBatteryCharge;
+    [HideInInspector]public static int currentBatteries;
     public float maxBatteryCharge = 100f;
     public float batteryLifeInSeconds = 500f;
     public BatteryBar batteryBar;
@@ -38,7 +46,7 @@ public class PlayerController : MonoBehaviour
     #region torch
     //Variables for the flashlight
     public GameObject shakePopUp;
-    public int torchShakes;
+    [HideInInspector]public int torchShakes;
     public int maxTorchShakes = 1;
     public Light Torch;
 
@@ -53,6 +61,8 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main;
         //Sets the current battery to max at the start of the game
         currentBatteryCharge = maxBatteryCharge;
+        //Sets the current stress level to 0 at the start of the game
+        stressMeter.SetMinStress(currentStress);
         //Sets the current health to max at the start of the game
         currentPlayerHealth = maxPlayerHealth;
         //Sets the battery bar to the max battery at the start of the game
@@ -128,6 +138,25 @@ public class PlayerController : MonoBehaviour
             Torch.intensity = Mathf.Lerp(Torch.intensity, 1f, Time.deltaTime * 2);
         }
         #endregion
+        
+        #region stress
+
+        currentStress = Mathf.Clamp(currentStress, 0, 100);
+
+        if (EnemyController.isPlayerDetected)
+        {
+            currentStress += Time.deltaTime * (100 / timeToMaxStress);
+            //Sets the current stress charge level to the stress bar, if the enemy sees the player.
+            stressMeter.SetStress(currentStress);
+        }
+        else 
+        {
+            currentStress -= Time.deltaTime * (100 / timeToMinStress);
+            stressMeter.SetStress(currentStress);
+        }
+
+        #endregion
+        
         //Checks if the player currently is on the ground, and sets the isGrounded boolean to false or true depending on if it is or not.
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDisctance, groundMask);
 

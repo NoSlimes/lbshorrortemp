@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     public float lookDistance = 50f;
     public float wanderRadius = 100f;
-    private bool isPlayerDetected;
+    public static bool isPlayerDetected;
 
     public LayerMask ignore;
     Transform target;
@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour
             {
                 agent.SetDestination(hit.transform.position);
 
-                //If the enemy is closer to the player than the set stopping distance, turn towards the player
+                //If the enemy is closer to the player than the set stopping distance, stop and turn towards the player
                 if (distance <= agent.stoppingDistance)
                 {
                     faceTarget();
@@ -92,8 +92,6 @@ public class EnemyController : MonoBehaviour
                 agent.SetDestination(agent.RandomPosition(wanderRadius));
             }
         }
-
-        Debug.Log(isPlayerDetected);
     }
 
 

@@ -8,6 +8,7 @@ public class InteractableController : MonoBehaviour
     public GameObject Cursor;
     private void Update()
     {
+        bool interact = Input.GetButtonDown("Interact");
         Debug.DrawRay(transform.position, transform.forward * interactableRange, Color.white);
             RaycastHit hit;
 
@@ -15,13 +16,13 @@ public class InteractableController : MonoBehaviour
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, interactableRange, InteractableLayer))
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (interact)
             {
                 //If the ray hits a gameObject with the tag "Door"
                 if (hit.transform.tag == "Door")
                 {
                     Animator anim = hit.transform.GetComponentInParent<Animator>(); //Set the animator to the animator of the gameObject currently looked at
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (interact)
                         anim.SetTrigger("OpenClose");
 
                     if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, returns true if the door is open
@@ -34,7 +35,7 @@ public class InteractableController : MonoBehaviour
                 //If the ray hits a gameObject with the tag "Battery"
                 if (hit.transform.tag == "Battery")
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (interact)
                     {
                         //Adds 1 to the current amount of batteries the player has got
                         PlayerController.currentBatteries += 1;

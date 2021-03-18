@@ -78,14 +78,14 @@ public class PlayerController : MonoBehaviour
         #region flashlight
         
         //Checks if player presses F, and if the current battery charge is greater than 0. It then toggles the flashlight depending on these factors.
-        if (Input.GetKeyDown(KeyCode.F) && currentBatteryCharge > 0)
+        if (Input.GetButtonDown("Flashlight") && currentBatteryCharge > 0)
         {
             torchOn = !torchOn;
             FindObjectOfType<AudioManager>().Play("torchToggle");
         }
 
         //Cheks if player presses Q, if the current battery charge is 0, and if the amount of "torch shakes" the player can make at the moment is greater than 0.
-        if(currentBatteryCharge == 0 && torchShakes > 0 && Input.GetKeyDown(KeyCode.Q))
+        if(currentBatteryCharge == 0 && torchShakes > 0 && Input.GetButtonDown("FlashlightShake"))
         {
             currentBatteryCharge += 10f;
             torchShakes -= 1;
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Checks if the player presses R, the current amount of batteries the player has is greater than 0 and if the current charge of the battery is 0.
-        if(currentBatteryCharge == 0 && currentBatteries > 0 && Input.GetKeyDown(KeyCode.R))
+        if(currentBatteryCharge == 0 && currentBatteries > 0 && Input.GetButtonDown("newBattery"))
         {
             currentBatteryCharge = maxBatteryCharge;
             currentBatteries -= 1;
@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         //Controls sprinting
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Sprint"))
         {
             speed = sprintSpeed;
         }

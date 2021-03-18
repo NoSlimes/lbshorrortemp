@@ -11,14 +11,13 @@ public class BatterySpawner : MonoBehaviour
     private void Start()
     {
         while(batteryAmount > 0){
-            Quaternion randomRotation = new Quaternion(0, Random.Range(0, 359), 90, 0);
-            spawnBatteryPoints = GameObject.FindGameObjectsWithTag("batterypoint"); //Finds all gameObjects with tag "enemypoint" and adds it to the array spawnEnemyPoints
+            spawnBatteryPoints = GameObject.FindGameObjectsWithTag("batterypoint"); //Finds all gameObjects with tag "batterypoint" and adds it to the array spawnBatteryPoints
             index = Random.Range(0, spawnBatteryPoints.Length); //Picks a gameObject at random from the array
             currentPoint = spawnBatteryPoints[index]; //The point that was picked
-            GameObject battery = Instantiate(Battery, currentPoint.transform.position, randomRotation); //Instantiates the enemy gameObject at the point
+            GameObject battery = Instantiate(Battery, currentPoint.transform.position, Quaternion.Euler(90, 0, Random.Range(0,359))); //Instantiates the battery gameObject at the point
             currentPoint.transform.parent = battery.transform;
             Debug.Log(currentPoint.name);
-            Destroy(currentPoint);
+            Destroy(currentPoint); //Deletes the point so that no other battery can spawn there.
             batteryAmount --;
         }
     }

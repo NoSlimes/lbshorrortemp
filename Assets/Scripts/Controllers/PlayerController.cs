@@ -23,12 +23,14 @@ public class PlayerController : MonoBehaviour
     //Variables for health, battery, stress, stamina, etc.
 
     //Stamina
+    [Header("Stamina Settings")]
     [HideInInspector]public float currentStamina;
     public float maxStamina = 100f;
     public float StaminaFullDrainInSeconds = 20f;
     public StaminaBar staminaBar;
 
     //Stress
+    [Header("Stress Settings")]
     [HideInInspector]public float currentStress;
     public float maxStress = 100f;
     public float timeToMaxStress = 20f;
@@ -37,10 +39,12 @@ public class PlayerController : MonoBehaviour
     public StressMeter stressMeter;
 
     //Health
+    [Header("Health Settings")]
     [HideInInspector]public float currentPlayerHealth;
     public float maxPlayerHealth = 2f;
     
     //Battery
+    [Header("Battery Settings")]
     [HideInInspector]public float currentBatteryCharge;
     [HideInInspector]public static int currentBatteries;
     public float maxBatteryCharge = 100f;

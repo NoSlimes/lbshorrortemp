@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1261160182221429333}
   - component: {fileID: 2627359071455731050}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,6 +92,7 @@ MonoBehaviour:
   ignore:
     serializedVersion: 2
     m_Bits: 512
+  agent: {fileID: 7716260072805893615}
 --- !u!82 &7716260072805893614
 AudioSource:
   m_ObjectHideFlags: 0
@@ -231,7 +232,7 @@ Animator:
   m_GameObject: {fileID: 9070801699465133821}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 20cb1d14fd930264e998b9f7d751eec6, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -366,7 +367,7 @@ PrefabInstance:
     - target: {fileID: -1824014963472552281, guid: 475d7cb3bd55780428666688ab2b0ddf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: cb3bad52249fc4a4d9f30429d2555d7b, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 667533693941847478, guid: 475d7cb3bd55780428666688ab2b0ddf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -0.027610898

@@ -20,7 +20,13 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Health, Battery, Stress etc.
-    //Variables for health, battery, (stress), etc.
+    //Variables for health, battery, stress, stamina, etc.
+
+    //Stamina
+    [HideInInspector]public float currentStamina;
+    public float maxStamina = 100f;
+    public float StaminaFullDrainInSeconds = 20f;
+    public StaminaBar staminaBar;
 
     //Stress
     [HideInInspector]public float currentStress;
@@ -61,13 +67,16 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main;
         //Sets the current battery to max at the start of the game
         currentBatteryCharge = maxBatteryCharge;
-        //Sets the current stress level to 0 at the start of the game
+        currentStamina = maxStamina;
+        //Sets the current stress level to min at the start of the game
         stressMeter.SetMinStress(currentStress);
+        //Sets the current stamina level to max at the start of the game
+        staminaBar.SetMaxStamina(maxStamina);
         //Sets the current health to max at the start of the game
         currentPlayerHealth = maxPlayerHealth;
         //Sets the battery bar to the max battery at the start of the game
         batteryBar.SetMaxBattery(maxBatteryCharge);
-        //Sets the torch shakes to max att the start of the game
+        //Sets the torch shakes to max at the start of the game
         torchShakes = maxTorchShakes;
         shakePopUp.SetActive(false);
     }
@@ -75,7 +84,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region flashlight
+        #region flashlight-battery
         
         //Checks if player presses F, and if the current battery charge is greater than 0. It then toggles the flashlight depending on these factors.
         if (Input.GetButtonDown("Flashlight") && currentBatteryCharge > 0)
@@ -157,6 +166,28 @@ public class PlayerController : MonoBehaviour
 
         #endregion
         
+        #region stamina
+
+        currentStamina = Mathf.Clamp(currentStamina, 0, 100);
+
+        if (Input.GetButton("Sprint"))
+        {
+            currentStamina -= Time.deltaTime * (100 / StaminaFullDrainInSeconds);
+            //Sets the current stress charge level to the stress bar, if the enemy sees the player.
+            staminaBar.SetStamina(currentStamina);
+        }
+        else 
+        {
+            currentStamina += Time.deltaTime * (100 / StaminaFullDrainInSeconds);
+            staminaBar.SetStamina(currentStamina);
+        }
+        #endregion
+
+        #region health
+
+
+        #endregion
+
         //Checks if the player currently is on the ground, and sets the isGrounded boolean to false or true depending on if it is or not.
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDisctance, groundMask);
 
@@ -169,7 +200,7 @@ public class PlayerController : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         //Controls sprinting
-        if (Input.GetButton("Sprint"))
+        if (Input.GetButton("Sprint") && currentStamina > 0)
         {
             speed = sprintSpeed;
         }

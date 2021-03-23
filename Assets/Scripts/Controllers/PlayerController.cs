@@ -88,6 +88,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
         #region flashlight-battery
         
         //Checks if player presses F, and if the current battery charge is greater than 0. It then toggles the flashlight depending on these factors.
@@ -174,7 +178,7 @@ public class PlayerController : MonoBehaviour
 
         currentStamina = Mathf.Clamp(currentStamina, 0, 100);
 
-        if (Input.GetButton("Sprint"))
+        if (Input.GetButton("Sprint") && x > 0 | z > 0)
         {
             currentStamina -= Time.deltaTime * (100 / StaminaFullDrainInSeconds);
             //Sets the current stress charge level to the stress bar, if the enemy sees the player.
@@ -200,8 +204,7 @@ public class PlayerController : MonoBehaviour
             velocity.y = -2f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+
 
         //Controls sprinting
         if (Input.GetButton("Sprint") && currentStamina > 0)

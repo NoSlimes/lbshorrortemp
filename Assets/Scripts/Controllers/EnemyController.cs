@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public float lookDistance = 50f;
     public float wanderRadius = 100f;
     public static bool isPlayerDetected;
+    private Vector3 targetDestination;
 
     public LayerMask ignore;
     Transform target;
@@ -60,11 +61,12 @@ public class EnemyController : MonoBehaviour
         //Draws a raycast towards the player
         if (Physics.Raycast(origin, dir, out hit, lookDistance, ~ignore))
         {   
+            
             //If the raycast hits a gameObject with the tag "Player"
             if (hit.transform.tag == "Player")
-            {
+            {   
+                
                 agent.SetDestination(hit.transform.position);
-
                 //If the enemy is closer to the player than the set stopping distance, stop and turn towards the player
                 if (distance <= agent.stoppingDistance)
                 {
@@ -81,6 +83,8 @@ public class EnemyController : MonoBehaviour
                 Debug.DrawRay(origin, dir * 1, Color.red);
             }
     }
+
+     
 
     private void FixedUpdate()
     {

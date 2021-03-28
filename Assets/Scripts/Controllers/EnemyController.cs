@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    private float TimeOutTime = .2f;
     public float lookDistance = 50f;
     public float wanderRadius = 100f;
     public static bool isPlayerDetected;
@@ -13,11 +14,12 @@ public class EnemyController : MonoBehaviour
     public LayerMask ignore;
     Transform target;
     NavMeshAgent agent;
+
+    bool stuck = false;
     void Start()
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
-
     }
 
     #region Triggers
@@ -51,6 +53,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float velocity = agent.velocity.magnitude;
         Vector3 origin = transform.position + Vector3.up * 3;
         Vector3 targetHeight = target.position + Vector3.up * 0.5f;
         Vector3 dir = (targetHeight - origin);
@@ -63,7 +66,7 @@ public class EnemyController : MonoBehaviour
         {   
             
             //If the raycast hits a gameObject with the tag "Player"
-            if (hit.transform.tag == "Player")
+            if (hit.transform.tag == "Player" && distance < lookDistance)
             {   
                 
                 agent.SetDestination(hit.transform.position);
@@ -73,15 +76,26 @@ public class EnemyController : MonoBehaviour
                     faceTarget();
                 }
                 
+
                 isPlayerDetected = true;
                 Debug.DrawRay(origin, dir * 1, Color.blue);
             } 
         }
-        else 
+        else
             {
                 isPlayerDetected = false;
                 Debug.DrawRay(origin, dir * 1, Color.red);
             }
+
+
+        Mathf.Clamp(TimeOutTime, 0, TimeOutTime);
+        if (velocity < 0.1 && TimeOutTime > 0)
+            TimeOutTime -= Time.deltaTime;
+        if(TimeOutTime <= 0f)
+            stuck = true;
+
+
+        
     }
 
      
@@ -93,12 +107,26 @@ public class EnemyController : MonoBehaviour
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                agent.SetDestination(agent.RandomPosition(wanderRadius));
+                randomRoam();
             }
         }
+
+        if(stuck)
+        {
+            randomRoam();
+            if(isPlayerDetected)
+                isPlayerDetected = false;
+            Debug.Log("stuck, setting new destination");
+            stuck = false;
+            TimeOutTime = .2f;
+        }
+        Debug.Log(stuck);
     }
 
-
+    void randomRoam()
+    {
+        agent.SetDestination(agent.RandomPosition(wanderRadius));
+    }
 
     void faceTarget()
     {

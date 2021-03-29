@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    private float TimeOutTime = .2f;
+    private float TimeOutTime = .1f;
     public float lookDistance = 50f;
     public float wanderRadius = 100f;
     public static bool isPlayerDetected;
@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour
                 //If the enemy is closer to the player than the set stopping distance, stop and turn towards the player
                 if (distance <= agent.stoppingDistance)
                 {
-                    faceTarget();
+                    attackPlayer();
                 }
                 
 
@@ -89,8 +89,10 @@ public class EnemyController : MonoBehaviour
 
 
         Mathf.Clamp(TimeOutTime, 0, TimeOutTime);
-        if (velocity < 0.1 && TimeOutTime > 0)
+        if (velocity < 0.1 && TimeOutTime > 0 && distance > 1)
             TimeOutTime -= Time.deltaTime;
+        else TimeOutTime = .1f;
+
         if(TimeOutTime <= 0f)
             stuck = true;
 
@@ -118,7 +120,7 @@ public class EnemyController : MonoBehaviour
                 isPlayerDetected = false;
             Debug.Log("stuck, setting new destination");
             stuck = false;
-            TimeOutTime = .2f;
+            TimeOutTime = .1f;
         }
         Debug.Log(stuck);
     }
@@ -128,10 +130,8 @@ public class EnemyController : MonoBehaviour
         agent.SetDestination(agent.RandomPosition(wanderRadius));
     }
 
-    void faceTarget()
+    void attackPlayer()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*5f);
+        playerSlaughtered.attacked = true;
     }
 }

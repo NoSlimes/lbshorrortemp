@@ -4,7 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     #region Movement
     //Variables for movement
-    public static CharacterController controller;
+    public CharacterController controller;
 
     public float speed =6f;
     public float sprintSpeed = 12f;

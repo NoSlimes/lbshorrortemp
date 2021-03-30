@@ -122,7 +122,6 @@ public class EnemyController : MonoBehaviour
             stuck = false;
             TimeOutTime = .1f;
         }
-        Debug.Log(stuck);
     }
 
     void randomRoam()

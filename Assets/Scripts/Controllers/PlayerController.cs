@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     //Health
     [Header("Health Settings")]
-    [HideInInspector]public float currentPlayerHealth;
+    [HideInInspector]public static float currentPlayerHealth;
     public float maxPlayerHealth = 2f;
     
     //Battery
@@ -63,12 +63,10 @@ public class PlayerController : MonoBehaviour
     public static bool torchOn;
     #endregion
 
-    Camera cam;
     public AudioSource footStepS;
 
     private void Start()
     {
-        cam = Camera.main;
         //Sets the current battery to max at the start of the game
         currentBatteryCharge = maxBatteryCharge;
         currentStamina = maxStamina;
@@ -151,7 +149,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //Makes the transition from on to off smoother
+            //Makes the transition from off to on smoother
             Torch.intensity = Mathf.Lerp(Torch.intensity, 1f, Time.deltaTime * 2);
         }
         #endregion
@@ -199,6 +197,7 @@ public class PlayerController : MonoBehaviour
         //Checks if the player currently is on the ground, and sets the isGrounded boolean to false or true depending on if it is or not.
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDisctance, groundMask);
 
+        if(!playerSlaughtered.attacked){
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
@@ -228,6 +227,7 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+        }
     }
 
 

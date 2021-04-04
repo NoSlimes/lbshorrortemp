@@ -21,29 +21,15 @@ public class InteractableController : MonoBehaviour
                 //If the ray hits a gameObject with the tag "Door"
                 if (hit.transform.tag == "Door")
                 {
-                    Animator anim = hit.transform.GetComponentInParent<Animator>(); //Set the animator to the animator of the gameObject currently looked at
-                    if (interact)
-                        anim.SetTrigger("OpenClose");
-
-                    if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, returns true if the door is open
-                        Debug.Log("Door open");
-
-                    if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose")) //Checks the state of the animator, returns true if the door is closed
-                        Debug.Log("Door closed");
+                    Door door = hit.transform.GetComponent<Door>();
+                    door.openCloseDoor();
                 }
 
                 //If the ray hits a gameObject with the tag "Battery"
                 if (hit.transform.tag == "Battery")
                 {
-                    if (interact)
-                    {
-                        //Adds 1 to the current amount of batteries the player has got
-                        PlayerController.currentBatteries += 1;
-                        Debug.Log(PlayerController.currentBatteries);
-                        //Destroys the battery gameObject
-                        Destroy(hit.transform.gameObject);
-                    }
-
+                    Battery battery = hit.transform.GetComponent<Battery>();
+                    battery.yoinkBattery();
                 }
             }
             Cursor.SetActive(true);

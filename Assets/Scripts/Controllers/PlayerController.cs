@@ -6,10 +6,11 @@ public class PlayerController : MonoBehaviour
     //Variables for movement
     public CharacterController controller;
 
-    public float speed =6f;
+    public float walkSpeed =6f;
     public float sprintSpeed = 12f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
+    public float speed;
 
     public Transform groundCheck;
     public float groundDisctance = 0.4f;
@@ -212,7 +213,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            speed = 6f;
+            speed = walkSpeed;
         }
 
         Vector3 move = transform.right * x + transform.forward * z;

@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class Door : MonoBehaviour
 {
     [SerializeField]public bool isLocked;
@@ -11,13 +12,11 @@ public class Door : MonoBehaviour
     {
         if (isLocked)
         {
-            NavMeshObstacle obstacle = GetComponent<NavMeshObstacle>();
-            obstacle.enabled = true;
+            GetComponent<NavMeshObstacle>().enabled = true;
         }
         else
         {
-            NavMeshObstacle obstacle = GetComponent<NavMeshObstacle>();
-            obstacle.enabled = false;
+            GetComponent<NavMeshObstacle>().enabled = false;
         }
            
     }
@@ -25,14 +24,7 @@ public class Door : MonoBehaviour
     {
         if (!isLocked)
         {
-            Animator anim = GetComponentInParent<Animator>(); //Set the animator to the animator of the gameObject currently looked at
-            anim.SetTrigger("OpenClose");
-
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, returns true if the door is open
-                Debug.Log("Door open");
-
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose")) //Checks the state of the animator, returns true if the door is closed
-                Debug.Log("Door closed");
+            GetComponentInParent<Animator>().SetTrigger("OpenClose"); //Set the animator to the animator of the gameObject currently looked at
         }
         else
         {
@@ -40,6 +32,21 @@ public class Door : MonoBehaviour
            // StartCoroutine(_lockedPopUp());
 
         }
+    }
+
+    public void DoorOpenSFX()
+    {
+        
+    }
+
+    public void DoorCloseSFX()
+    {
+
+    }
+
+    public void DoorSlamSFX()
+    {
+
     }
 
     /*IEnumerator _lockedPopUp()

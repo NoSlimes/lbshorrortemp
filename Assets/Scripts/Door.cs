@@ -26,11 +26,10 @@ public class Door : MonoBehaviour
         {
             Animator anim = GetComponentInParent<Animator>(); //Set the animator to the animator of the Door currently looked at
                 anim.SetTrigger("OpenClose");
-            Debug.Log(anim.GetCurrentAnimatorStateInfo(0));
         }
         else
         {
-            FindObjectOfType<AudioManager>().Play("doorLocked");
+            GetComponentInParent<DoorSoundCaller>().Play("DoorLocked");
            // StartCoroutine(_lockedPopUp());
 
         }

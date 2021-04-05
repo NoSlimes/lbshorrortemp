@@ -1,22 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 
-public class AudioManager : MonoBehaviour
+public class DoorSoundCaller : MonoBehaviour
 {
     public Sound[] sounds;
 
     public static AudioManager instance;
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         foreach (Sound s in sounds)
         {
             Scene currentScene = SceneManager.GetActiveScene();
@@ -48,25 +40,19 @@ public class AudioManager : MonoBehaviour
         s.source.Play();
     }
 
-    public void Stop()
+    public void DoorOpenSFX()
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
-        {
-            Debug.LogWarning("Sound: " + name + "was stopped!");
-            return;
-        }
-        s.source.Stop();
+        Play("DoorOpen");
     }
 
-    private void Start()
+    public void DoorCloseSFX()
     {
-
+        Play("DoorClose");
+        Debug.Log("hej");
     }
 
-    private void Update()
+    public void DoorSlamSFX()
     {
-        
-       
+        Play("DoorSlam");
     }
 }

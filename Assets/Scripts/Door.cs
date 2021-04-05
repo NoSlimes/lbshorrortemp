@@ -24,7 +24,9 @@ public class Door : MonoBehaviour
     {
         if (!isLocked)
         {
-            GetComponentInParent<Animator>().SetTrigger("OpenClose"); //Set the animator to the animator of the gameObject currently looked at
+            Animator anim = GetComponentInParent<Animator>(); //Set the animator to the animator of the Door currently looked at
+                anim.SetTrigger("OpenClose");
+            Debug.Log(anim.GetCurrentAnimatorStateInfo(0));
         }
         else
         {
@@ -32,21 +34,6 @@ public class Door : MonoBehaviour
            // StartCoroutine(_lockedPopUp());
 
         }
-    }
-
-    public void DoorOpenSFX()
-    {
-        
-    }
-
-    public void DoorCloseSFX()
-    {
-
-    }
-
-    public void DoorSlamSFX()
-    {
-
     }
 
     /*IEnumerator _lockedPopUp()

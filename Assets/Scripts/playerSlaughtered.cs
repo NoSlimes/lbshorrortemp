@@ -22,7 +22,7 @@ public class playerSlaughtered : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
+        if(Input.GetKeyDown(KeyCode.Tilde))
         {
             Debug.Log(PlayerController.currentPlayerHealth);
             deathCam.enabled = false;

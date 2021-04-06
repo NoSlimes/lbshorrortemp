@@ -59,6 +59,7 @@ public class AudioManager : MonoBehaviour
         s.source.Stop();
     }
 
+    //Place sounds that you want to play at the start of the game in the Start() function
     private void Start()
     {
 
@@ -66,7 +67,6 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        
-       
+          
     }
 }

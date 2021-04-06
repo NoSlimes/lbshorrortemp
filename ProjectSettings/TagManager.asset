@@ -9,6 +9,9 @@ TagManager:
   - Door
   - Battery
   - batterypoint
+  - deathCamera
+  - playerpoint
+  - gameStartTrigger
   layers:
   - Default
   - TransparentFX

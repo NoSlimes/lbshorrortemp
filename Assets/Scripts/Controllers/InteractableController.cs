@@ -12,8 +12,6 @@ public class InteractableController : MonoBehaviour
         Debug.DrawRay(transform.position, transform.forward * interactableRange, Color.white);
             RaycastHit hit;
 
-
-
         if (Physics.Raycast(transform.position, transform.forward, out hit, interactableRange, InteractableLayer))
         {
             if (interact)

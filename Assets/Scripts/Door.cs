@@ -24,23 +24,23 @@ public class Door : MonoBehaviour
         }
            
     }
-    public void lockedCheck()
+    public void LockedCheck()
     {
         if (!isLocked)
         {
-            openCloseDoor();
+            OpenCloseDoor();
         }
         else if (useKey1 && InteractableController.hasKey1)
         {
-            openCloseDoor();
+            OpenCloseDoor();
         }
         else if (useKey2 && InteractableController.hasKey2)
         {
-            openCloseDoor();
+            OpenCloseDoor();
         }
         else if (useKey3 && InteractableController.hasKey3)
         {
-            openCloseDoor();
+            OpenCloseDoor();
         }
         else
         {
@@ -50,7 +50,7 @@ public class Door : MonoBehaviour
 
  
     }
-    public void openCloseDoor()
+    public void OpenCloseDoor()
     {
         anim = GetComponentInParent<Animator>(); //Set the animator to the animator of the Door currently looked at
         anim.SetTrigger("OpenClose");

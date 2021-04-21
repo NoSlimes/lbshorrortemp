@@ -15,7 +15,7 @@ public class OneTimeDoorCollider : MonoBehaviour
         {
             Door door = GetComponentInChildren<Door>();
             enemyspawner.spawnEnemy();
-            door.openCloseDoor();
+            door.OpenCloseDoor();
             door.isLocked = true;
         }
     }

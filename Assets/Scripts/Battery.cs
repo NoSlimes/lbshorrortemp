@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Battery : MonoBehaviour
 {
-    public void pickUpBattery()
+    public void PickUpBattery()
     {
         PlayerController.currentBatteries += 1;         //Adds 1 to the current amount of batteries the player has got
         Debug.Log(PlayerController.currentBatteries);

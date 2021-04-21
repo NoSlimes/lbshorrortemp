@@ -13,43 +13,29 @@ public class InteractableController : MonoBehaviour
     {
         bool interact = Input.GetButtonDown("Interact");
         Debug.DrawRay(transform.position, transform.forward * interactableRange, Color.white);
-            RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, interactableRange, InteractableLayer))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactableRange, InteractableLayer))
         {
             if (interact)
             {
                 //If the ray hits a gameObject with the tag "Door"
-                if (hit.transform.tag == "Door")
+                if (hit.transform.CompareTag("Door"))
                 {
                     Door door = hit.transform.GetComponent<Door>();
-                    door.lockedCheck();
+                    door.LockedCheck();
                 }
 
                 //If the ray hits a gameObject with the tag "Battery"
-                if (hit.transform.tag == "Battery")
+                if (hit.transform.CompareTag("Battery"))
                 {
                     Battery battery = hit.transform.GetComponent<Battery>();
-                    battery.pickUpBattery();
+                    battery.PickUpBattery();
                 }
 
-                if (hit.transform.tag == "Key1")
+                if (hit.transform.CompareTag("Key"))
                 {
-                    hasKey1 = true;
-                    FindObjectOfType<AudioManager>().Play("pickUpItem");
-                    Destroy(hit.transform.gameObject);
-                }
-                if (hit.transform.tag == "Key2")
-                {
-                    hasKey2 = true;
-                    FindObjectOfType<AudioManager>().Play("pickUpItem");
-                    Destroy(hit.transform.gameObject);
-                }
-                if (hit.transform.tag == "Key3")
-                {
-                    hasKey3 = true;
-                    FindObjectOfType<AudioManager>().Play("pickUpItem");
-                    Destroy(hit.transform.gameObject);
+                    Key key = hit.transform.GetComponent<Key>();
+                    key.PickUpKey();
                 }
             }
             Cursor.SetActive(true);

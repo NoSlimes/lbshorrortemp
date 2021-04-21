@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class EnemyController : MonoBehaviour
 {
     private float TimeOutTime = .1f;
     public float lookDistance = 50f;
     public float wanderRadius = 100f;
     public static bool isPlayerDetected;
-    private Vector3 targetDestination;
 
     public LayerMask ignore;
     Transform target;
@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
     //When enemy enters a trigger
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Door")
+        if (other.CompareTag("Door"))
         {
             Door door = other.GetComponentInChildren<Door>();
             Animator anim = other.GetComponentInChildren<Animator>(); //Set the animator to the animator of the gameObject the enemy currently is at
@@ -34,7 +34,7 @@ public class EnemyController : MonoBehaviour
                 return;
 
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose") | anim.GetCurrentAnimatorStateInfo(0).IsName("Start")) //Checks the state of the animator, opens the door if the door is already closed
-                door.lockedCheck(); Debug.Log("OPEN");
+                door.LockedCheck(); Debug.Log("OPEN");
         }
     }
 
@@ -47,52 +47,47 @@ public class EnemyController : MonoBehaviour
             return;
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, closes the door if the door is already open
-            door.lockedCheck(); Debug.Log("CLOSE");
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.transform.tag == "Enemy")
-            Destroy(this.gameObject);
+            door.LockedCheck(); Debug.Log("CLOSE");
     }
     #endregion
 
     // Update is called once per frame
     void Update()
     {
+        DontDestroyOnLoad(gameObject);
+
         float velocity = agent.velocity.magnitude;
         Vector3 origin = transform.position + Vector3.up * 3;
-        Vector3 targetHeight = target.position + Vector3.up * 0.5f;
-        Vector3 dir = (targetHeight - origin);
+        Vector3 targetPos = target.position + Vector3.up * 0.5f;
+        Vector3 dir = (targetPos - origin);
         float distance = Vector3.Distance(target.position, transform.position);
-        
-        RaycastHit hit;
+
 
         //Draws a raycast towards the player
-        if (Physics.Raycast(origin, dir, out hit, lookDistance, ~ignore))
-        {   
-            
+        if (Physics.Raycast(origin, dir, out RaycastHit hit, lookDistance, ~ignore))
+        {
+
             //If the raycast hits a gameObject with the tag "Player"
-            if (hit.transform.tag == "Player" && distance < lookDistance)
-            {   
-                
+            if (hit.transform.CompareTag("Player") && distance < lookDistance)
+            {
+
                 agent.SetDestination(hit.transform.position);
                 //If the enemy is closer to the player than the set stopping distance, stop and turn towards the player
                 if (distance <= agent.stoppingDistance)
                 {
-                    attackPlayer();
+                    AttackPlayer();
                 }
-                
+
 
                 isPlayerDetected = true;
-                Debug.DrawRay(origin, dir * 1, Color.blue);
-            } 
+                Debug.DrawRay(origin, dir * lookDistance, Color.blue);
+            }
         }
         else
-            {
-                isPlayerDetected = false;
-                Debug.DrawRay(origin, dir * 1, Color.red);
-            }
+        {
+            isPlayerDetected = false;
+            Debug.DrawRay(origin, dir * lookDistance, Color.red);
+        }
 
 
         Mathf.Clamp(TimeOutTime, 0, TimeOutTime);
@@ -116,13 +111,13 @@ public class EnemyController : MonoBehaviour
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                randomRoam();
+                RandomRoam();
             }
         }
 
         if(stuck)
         {
-            randomRoam();
+            RandomRoam();
             if(isPlayerDetected)
                 isPlayerDetected = false;
             Debug.Log("stuck, setting new destination");
@@ -131,12 +126,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void randomRoam()
+    void RandomRoam()
     {
         agent.SetDestination(agent.RandomPosition(wanderRadius));
     }
 
-    void attackPlayer()
+    void AttackPlayer()
     {
         playerSlaughtered.attacked = true;
     }

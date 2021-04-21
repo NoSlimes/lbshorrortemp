@@ -11,7 +11,7 @@ public class OneTimeDoorCollider : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             Door door = GetComponentInChildren<Door>();
             enemyspawner.spawnEnemy();

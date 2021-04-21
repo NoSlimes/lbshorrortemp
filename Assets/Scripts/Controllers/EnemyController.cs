@@ -28,26 +28,33 @@ public class EnemyController : MonoBehaviour
     {
         if (other.tag == "Door")
         {
-            Animator anim = other.GetComponentInParent<Animator>(); //Set the animator to the animator of the gameObject the enemy currently is at
+            Door door = other.GetComponentInChildren<Door>();
+            Animator anim = other.GetComponentInChildren<Animator>(); //Set the animator to the animator of the gameObject the enemy currently is at
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, returns if the door is open
                 return;
 
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose")) //Checks the state of the animator, opens the door if the door is already closed
-                anim.SetTrigger("OpenClose");
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose") | anim.GetCurrentAnimatorStateInfo(0).IsName("Start")) //Checks the state of the animator, opens the door if the door is already closed
+                door.lockedCheck(); Debug.Log("OPEN");
         }
     }
 
     //When enemy exits a trigger
     private void OnTriggerExit(Collider other)
-    {   
-        Animator anim = other.GetComponentInParent<Animator>(); //Set the animator to the animator of the gameObject the enemy currently is at
+    {
+        Door door = other.GetComponentInChildren<Door>(); 
+        Animator anim = other.GetComponentInChildren<Animator>(); //Set the animator to the animator of the gameObject the enemy currently is at
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose")) //Checks the state of the animator, returns if the door is closed
             return;
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("DoorOpen")) //Checks the state of the animator, closes the door if the door is already open
-            anim.SetTrigger("OpenClose");
+            door.lockedCheck(); Debug.Log("CLOSE");
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.tag == "Enemy")
+            Destroy(this.gameObject);
+    }
     #endregion
 
     // Update is called once per frame

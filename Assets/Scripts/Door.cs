@@ -6,7 +6,11 @@ using UnityEngine.AI;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField]public bool isLocked;
+    public bool isLocked;
+    [HideInInspector]public Animator anim;
+    [SerializeField] bool useKey1;
+    [SerializeField] bool useKey2;
+    [SerializeField] bool useKey3;
 
     private void Update()
     {
@@ -20,20 +24,39 @@ public class Door : MonoBehaviour
         }
            
     }
-    public void openCloseDoor()
+    public void lockedCheck()
     {
         if (!isLocked)
         {
-            Animator anim = GetComponentInParent<Animator>(); //Set the animator to the animator of the Door currently looked at
-                anim.SetTrigger("OpenClose");
+            openCloseDoor();
+        }
+        else if (useKey1 && InteractableController.hasKey1)
+        {
+            openCloseDoor();
+        }
+        else if (useKey2 && InteractableController.hasKey2)
+        {
+            openCloseDoor();
+        }
+        else if (useKey3 && InteractableController.hasKey3)
+        {
+            openCloseDoor();
         }
         else
         {
             GetComponentInParent<DoorSoundCaller>().Play("DoorLocked");
            // StartCoroutine(_lockedPopUp());
-
         }
+
+ 
     }
+    public void openCloseDoor()
+    {
+        anim = GetComponentInParent<Animator>(); //Set the animator to the animator of the Door currently looked at
+        anim.SetTrigger("OpenClose");
+        Debug.Log(this.anim);
+    }
+
 
     /*IEnumerator _lockedPopUp()
     {

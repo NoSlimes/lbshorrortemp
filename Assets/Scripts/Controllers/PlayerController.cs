@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
     [Header("Stamina Settings")]
     [HideInInspector]public float currentStamina;
     public float maxStamina = 100f;
-    public float StaminaFullDrainInSeconds = 20f;
+    public float StaminaFullDrainInSeconds = 15f;
+    public float StaminaFullInSeconds = 30f;
     public StaminaBar staminaBar;
 
     //Stress
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour
             currentStamina = Mathf.Clamp(currentStamina, 0, 100);
             
             //Controls sprinting
-            if (Input.GetButton("Sprint") && x > 0 | z > 0)
+            if (Input.GetButton("Sprint") && x != 0 | z != 0)
             {
                 currentStamina -= Time.deltaTime * (100 / StaminaFullDrainInSeconds);
                 //Sets the current stress charge level to the stress bar, if the enemy sees the player.
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                currentStamina += Time.deltaTime * (100 / StaminaFullDrainInSeconds);
+                currentStamina += Time.deltaTime * (100 / StaminaFullInSeconds);
                 staminaBar.SetStamina(currentStamina);
                 speed = walkSpeed;
             }

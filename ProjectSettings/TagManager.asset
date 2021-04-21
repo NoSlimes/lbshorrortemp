@@ -12,6 +12,9 @@ TagManager:
   - deathCamera
   - playerpoint
   - gameStartTrigger
+  - Key1
+  - Key2
+  - Key3
   layers:
   - Default
   - TransparentFX

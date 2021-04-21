@@ -6,6 +6,9 @@ public class InteractableController : MonoBehaviour
     public float interactableRange=5f;
     public LayerMask InteractableLayer;
     public GameObject Cursor;
+    [HideInInspector] public static bool hasKey1 = false;
+    [HideInInspector] public static bool hasKey2 = false;
+    [HideInInspector] public static bool hasKey3 = false;
     private void Update()
     {
         bool interact = Input.GetButtonDown("Interact");
@@ -20,14 +23,33 @@ public class InteractableController : MonoBehaviour
                 if (hit.transform.tag == "Door")
                 {
                     Door door = hit.transform.GetComponent<Door>();
-                    door.openCloseDoor();
+                    door.lockedCheck();
                 }
 
                 //If the ray hits a gameObject with the tag "Battery"
                 if (hit.transform.tag == "Battery")
                 {
                     Battery battery = hit.transform.GetComponent<Battery>();
-                    battery.yoinkBattery();
+                    battery.pickUpBattery();
+                }
+
+                if (hit.transform.tag == "Key1")
+                {
+                    hasKey1 = true;
+                    FindObjectOfType<AudioManager>().Play("pickUpItem");
+                    Destroy(hit.transform.gameObject);
+                }
+                if (hit.transform.tag == "Key2")
+                {
+                    hasKey2 = true;
+                    FindObjectOfType<AudioManager>().Play("pickUpItem");
+                    Destroy(hit.transform.gameObject);
+                }
+                if (hit.transform.tag == "Key3")
+                {
+                    hasKey3 = true;
+                    FindObjectOfType<AudioManager>().Play("pickUpItem");
+                    Destroy(hit.transform.gameObject);
                 }
             }
             Cursor.SetActive(true);
